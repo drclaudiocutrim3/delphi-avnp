@@ -203,7 +203,7 @@ export default function DelphiApp() {
   const [etapa, setEtapa] = useState(0); // 0 = apresentação; 1..N = blocos; N+1 = perfil+envio; N+2 = obrigado
   const [respostas, setRespostas] = useState<Respostas>({});
   const [comentarios, setComentarios] = useState<Comentarios>({});
-  const [perfil, setPerfil] = useState({ area: "", experiencia: "", vinculo: "", email: "" });
+  const [perfil, setPerfil] = useState({ area: "", experiencia: "", vinculo: "" });
   const [enviando, setEnviando] = useState(false);
   const [erro, setErro] = useState("");
 
@@ -381,19 +381,6 @@ export default function DelphiApp() {
               </div>
             </div>
 
-            <div style={S.campoBloco}>
-              <label style={S.comentarioLabel}>
-                E-mail (opcional — só se quiser receber uma confirmação e o resultado final do painel)
-              </label>
-              <input
-                type="email"
-                style={S.comentarioInput}
-                placeholder="seu@email.com"
-                value={perfil.email}
-                onChange={(e) => setPerfil((p) => ({ ...p, email: e.target.value }))}
-              />
-            </div>
-
             {erro && <p style={S.erro}>{erro}</p>}
 
             <div style={S.navegacao}>
@@ -418,7 +405,6 @@ export default function DelphiApp() {
             <p style={S.blocoInstrucao}>{MSG_OBRIGADO_TEXTO}</p>
             <p style={S.comprovante}>
               {respondidos} de {totalItens} itens registrados nesta submissão.
-              {perfil.email && " Uma confirmação foi enviada ao e-mail informado."}
             </p>
           </section>
         )}

@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
     const { respostas, comentarios, perfil } = body as {
       respostas: Record<string, number>;
       comentarios: Record<string, string>;
-      perfil: { area: string; experiencia: string; vinculo: string; email?: string };
+      perfil: { area: string; experiencia: string; vinculo: string };
     };
 
     if (!respostas || Object.keys(respostas).length === 0) {
@@ -104,29 +104,6 @@ export async function POST(req: NextRequest) {
       subject: `Nova resposta Delphi — ${idResposta}`,
       html: htmlPesquisador,
     });
-
-    // Confirmação opcional ao especialista
-    if (perfil?.email) {
-      const totalItens = Object.keys(ROTULOS).length;
-      const respondidos = Object.keys(respostas).length;
-      await enviarEmail({
-        to: perfil.email,
-        subject: "Confirmação — Painel Delphi AVN-P/EAA",
-        html: `
-          <div style="font-family:sans-serif;max-width:520px;margin:0 auto;">
-            <h2>Obrigado pela sua contribuição</h2>
-            <p>Sua avaliação foi registrada com sucesso e enviada ao pesquisador responsável.</p>
-            <p><strong>${respondidos} de ${totalItens}</strong> itens avaliados.</p>
-            <p style="color:#888;font-size:13px;">ID de referência: ${idResposta}<br/>Data/hora: ${carimbo}</p>
-            <hr/>
-            <p style="font-size:12px;color:#888;">
-              Pesquisa PPGE/UFPA — Economia da Saúde, Biocapitalismo e Assimetria Informacional<br/>
-              Dr. Claudio Roberto Cutrim Carvalho · ${EMAIL_PESQUISADOR}
-            </p>
-          </div>
-        `,
-      });
-    }
 
     return NextResponse.json({ ok: true, idResposta });
   } catch (err) {
