@@ -229,10 +229,14 @@ export default function DelphiApp() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ respostas, comentarios, perfil }),
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) {
+        const corpo = await res.json().catch(() => ({}));
+        throw new Error(corpo.error || `HTTP ${res.status}`);
+      }
       setEtapa(TOTAL_ETAPAS);
-    } catch {
-      setErro(MSG_ERRO);
+    } catch (e) {
+      const detalhe = e instanceof Error ? e.message : "erro desconhecido";
+      setErro(`${MSG_ERRO} (detalhe: ${detalhe})`);
     } finally {
       setEnviando(false);
     }

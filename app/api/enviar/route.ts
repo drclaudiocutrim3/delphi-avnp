@@ -131,14 +131,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, idResposta });
   } catch (err) {
     console.error("Erro ao processar envio:", err);
-    return NextResponse.json({ error: "Falha ao enviar" }, { status: 500 });
+    const mensagem = err instanceof Error ? err.message : "erro desconhecido";
+    return NextResponse.json({ error: mensagem }, { status: 500 });
   }
 }
 
 async function enviarEmail({ to, subject, html }: { to: string; subject: string; html: string }) {
   if (!RESEND_API_KEY) {
-    console.warn("RESEND_API_KEY não configurada — e-mail não enviado (modo dev).");
-    return;
+    throw new Error("RESEND_API_KEY ausente no ambiente de execução — envio abortado.");
   }
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
