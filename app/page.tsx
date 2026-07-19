@@ -9,7 +9,7 @@ import { useState } from "react";
 const TITULO = "Painel Delphi — Validação de Conteúdo";
 const SUBTITULO = "AVN-P e Economia Anti-Assimétrica · PPGE/UFPA";
 
-const APRESENTACAO = `Este instrumento valida o conteúdo de um modelo analítico interdisciplinar desenvolvido em tese de doutorado em Economia (PPGE/UFPA, orientador: Prof. Dr. Hilder André Bezerra Farias). Não é necessário ter lido a tese para responder — basta avaliar cada item com base em sua experiência profissional.
+const APRESENTACAO = `Este instrumento valida o conteúdo de um modelo analítico interdisciplinar desenvolvido em tese de doutorado em Economia (PPGE/UFPA). Não é necessário ter lido a tese para responder — basta avaliar cada item com base em sua experiência profissional.
 
 O modelo propõe cinco dimensões (vetores) que descrevem como pacientes processam informação e tomam decisões em saúde, três perfis decisórios típicos, e quatro dispositivos de comunicação clínica correspondentes. Você avalia se cada item é relevante e reconhecível. Não há respostas certas ou erradas.
 
@@ -114,8 +114,14 @@ function PecasVisuais() {
             <circle cx="55" cy="55" r="17" fill="#FBF9F4" stroke="#1F6F54" strokeWidth="2" strokeDasharray="2 2" />
             <circle cx="145" cy="55" r="30" fill="#FBF9F4" stroke="#E76F51" strokeWidth="10" />
             <circle cx="145" cy="55" r="9" fill="#FBF9F4" stroke="#E76F51" strokeWidth="2" strokeDasharray="2 2" />
-            <text x="55" y="100" textAnchor="middle" fontSize="9" fill="#1F6F54" fontWeight="700">artéria normal</text>
-            <text x="145" y="100" textAnchor="middle" fontSize="9" fill="#E76F51" fontWeight="700">sob pressão constante</text>
+            <text x="55" y="97" textAnchor="middle" fontSize="8.5" fill="#1F6F54" fontWeight="700">
+              <tspan x="55" dy="0">parede fina,</tspan>
+              <tspan x="55" dy="11">passagem livre</tspan>
+            </text>
+            <text x="145" y="97" textAnchor="middle" fontSize="8.5" fill="#E76F51" fontWeight="700">
+              <tspan x="145" dy="0">parede grossa,</tspan>
+              <tspan x="145" dy="11">passagem estreita</tspan>
+            </text>
             <path d="M90 55 L 112 55" stroke="#8A927F" strokeWidth="2" markerEnd="url(#seta)" />
             <defs>
               <marker id="seta" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto">
