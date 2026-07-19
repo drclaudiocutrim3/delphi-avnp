@@ -58,15 +58,15 @@ const BLOCOS = [
   },
   {
     id: "C",
-    titulo: "Bloco C — Correspondência perfil → dispositivo de comunicação",
-    instrucao: "A tese propõe que cada perfil se beneficia de um dispositivo específico: PTC (Pedagogia Técnica Compactada) → Perfil A; PCEC (Peça Clínico-Econômica) → Perfil B; PPE (Peça Psicoeconômica) → Perfis A e B; FRI (Ferramenta de Redirecionamento Intertemporal) → Perfil C.",
+    titulo: "Bloco C — Cada peça ajuda em qual circunstância?",
+    instrucao: "Para cada situação abaixo, avalie se a peça de comunicação sugerida parece uma resposta clinicamente adequada.",
     itens: [
-      { id: "C1", texto: "A correspondência Perfil A → PTC + PPE parece clinicamente razoável." },
-      { id: "C2", texto: "A correspondência Perfil B → PCEC + PPE parece clinicamente razoável." },
-      { id: "C3", texto: "A correspondência Perfil C → FRI parece clinicamente razoável." },
-      { id: "C4", texto: "Os quatro dispositivos, em conjunto, cobrem os principais mecanismos de assimetria informacional descritos nos perfis." },
+      { id: "C1", texto: "Para um paciente com dificuldade em entender informações técnicas e desconfiança nas instituições de saúde: uma explicação visual curta do mecanismo da doença (PTC) parece adequada." },
+      { id: "C2", texto: "Para um paciente que supervaloriza exames caros e tecnologia sem indicação clara, associando \"mais caro\" a \"melhor\": uma comparação visual de custo e benefício entre condutas (PCEC) parece adequada." },
+      { id: "C3", texto: "Para reorganizar a percepção de risco de um paciente — seja por baixo domínio técnico, seja por supervalorização de tecnologia: uma metáfora visual de risco (PPE) parece adequada nos dois casos." },
+      { id: "C4", texto: "Para um paciente que aceita a conduta inicialmente mas abandona o tratamento quando os benefícios só aparecem no futuro: tornar visível o benefício acumulado ao longo do tempo (FRI) parece adequado." },
     ],
-    comentario: "Comentário sobre a correspondência (opcional):",
+    comentario: "Alguma dessas situações parece mal descrita, ou a peça sugerida parece errada para o caso? (opcional)",
   },
   {
     id: "D",
@@ -93,6 +93,105 @@ type Respostas = Record<string, number>;
 type Comentarios = Record<string, string>;
 
 const TOTAL_ETAPAS = BLOCOS.length + 2; // capa + blocos + perfil/envio
+
+// ============================================================
+// PEÇAS VISUAIS DE EXEMPLO (PTC, PCEC, PPE)
+// Ilustrações estáticas simples, caso hipertensão → AVC,
+// para o especialista ver um exemplo real antes de julgar o Bloco C.
+// ============================================================
+
+function PecasVisuais() {
+  return (
+    <div style={S.pecasWrap}>
+      <p style={S.pecasIntro}>
+        Antes de avaliar a correspondência, veja um exemplo de cada dispositivo (caso hipertensão → AVC):
+      </p>
+      <div style={S.pecasGrid}>
+        <PecaCard sigla="PTC" titulo="Pedagogia Técnica Compactada">
+          <svg viewBox="0 0 200 120" style={S.pecaSvg}>
+            <rect x="0" y="0" width="200" height="120" fill="#F0EDE4" rx="8" />
+            <circle cx="55" cy="55" r="30" fill="#FBF9F4" stroke="#1F6F54" strokeWidth="5" />
+            <circle cx="55" cy="55" r="17" fill="#FBF9F4" stroke="#1F6F54" strokeWidth="2" strokeDasharray="2 2" />
+            <circle cx="145" cy="55" r="30" fill="#FBF9F4" stroke="#E76F51" strokeWidth="10" />
+            <circle cx="145" cy="55" r="9" fill="#FBF9F4" stroke="#E76F51" strokeWidth="2" strokeDasharray="2 2" />
+            <text x="55" y="100" textAnchor="middle" fontSize="9" fill="#1F6F54" fontWeight="700">artéria normal</text>
+            <text x="145" y="100" textAnchor="middle" fontSize="9" fill="#E76F51" fontWeight="700">sob pressão constante</text>
+            <path d="M90 55 L 112 55" stroke="#8A927F" strokeWidth="2" markerEnd="url(#seta)" />
+            <defs>
+              <marker id="seta" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#8A927F" />
+              </marker>
+            </defs>
+          </svg>
+          <p style={S.pecaLegenda}>
+            Explica o mecanismo da doença de forma simples e visual — para quem tem dificuldade em entender termos técnicos.
+          </p>
+        </PecaCard>
+
+        <PecaCard sigla="PCEC" titulo="Peça Clínico-Econômica">
+          <svg viewBox="0 0 200 120" style={S.pecaSvg}>
+            <rect x="0" y="0" width="200" height="120" fill="#F0EDE4" rx="8" />
+            <rect x="30" y="70" width="30" height="30" fill="#1F6F54" rx="3" />
+            <rect x="90" y="30" width="30" height="70" fill="#E76F51" rx="3" />
+            <text x="45" y="66" textAnchor="middle" fontSize="9" fill="#4A5058">R$ 40/mês</text>
+            <text x="105" y="26" textAnchor="middle" fontSize="9" fill="#4A5058">R$ 38 mil</text>
+            <text x="45" y="112" textAnchor="middle" fontSize="8.5" fill="#4A5058">tratar hoje</text>
+            <text x="105" y="112" textAnchor="middle" fontSize="8.5" fill="#4A5058">AVC + reabilitação</text>
+          </svg>
+          <p style={S.pecaLegenda}>
+            Compara o custo de tratar agora com o custo de uma complicação grave depois — em números concretos.
+          </p>
+        </PecaCard>
+
+        <PecaCard sigla="PPE" titulo="Peça Psicoeconômica">
+          <svg viewBox="0 0 200 120" style={S.pecaSvg}>
+            <rect x="0" y="0" width="200" height="120" fill="#F0EDE4" rx="8" />
+            <path d="M20 90 L 90 60" stroke="#1F6F54" strokeWidth="5" fill="none" strokeLinecap="round" />
+            <path d="M90 60 L 185 30" stroke="#1F6F54" strokeWidth="5" fill="none" strokeLinecap="round" />
+            <path d="M90 60 L 185 95" stroke="#E76F51" strokeWidth="5" fill="none" strokeLinecap="round" />
+            <circle cx="90" cy="60" r="5" fill="#14213D" />
+            <text x="185" y="24" textAnchor="end" fontSize="9" fill="#1F6F54">pequenos ajustes agora</text>
+            <text x="185" y="107" textAnchor="end" fontSize="9" fill="#E76F51">evento grave depois</text>
+          </svg>
+          <p style={S.pecaLegenda}>
+            Muda a forma como a pessoa enxerga o risco: pequena mudança agora vs. evento grave se nada for feito.
+          </p>
+        </PecaCard>
+
+        <PecaCard sigla="FRI" titulo="Ferramenta de Redirecionamento Intertemporal">
+          <svg viewBox="0 0 200 120" style={S.pecaSvg}>
+            <rect x="0" y="0" width="200" height="120" fill="#F0EDE4" rx="8" />
+            <line x1="20" y1="100" x2="185" y2="100" stroke="#D8D3C6" strokeWidth="2" />
+            <rect x="30" y="85" width="18" height="15" fill="#1F6F54" rx="2" />
+            <rect x="70" y="70" width="18" height="30" fill="#1F6F54" rx="2" />
+            <rect x="110" y="50" width="18" height="50" fill="#1F6F54" rx="2" />
+            <rect x="150" y="25" width="18" height="75" fill="#1F6F54" rx="2" />
+            <text x="39" y="112" textAnchor="middle" fontSize="8" fill="#4A5058">ano 1</text>
+            <text x="79" y="112" textAnchor="middle" fontSize="8" fill="#4A5058">ano 3</text>
+            <text x="119" y="112" textAnchor="middle" fontSize="8" fill="#4A5058">ano 5</text>
+            <text x="159" y="112" textAnchor="middle" fontSize="8" fill="#4A5058">ano 10</text>
+            <text x="100" y="16" textAnchor="middle" fontSize="8.5" fill="#1F6F54">benefício acumulado de aderir ao tratamento</text>
+          </svg>
+          <p style={S.pecaLegenda}>
+            Torna visível o benefício que só aparece no futuro — para quem valoriza apenas o resultado imediato.
+          </p>
+        </PecaCard>
+      </div>
+    </div>
+  );
+}
+
+function PecaCard({ sigla, titulo, children }: { sigla: string; titulo: string; children: React.ReactNode }) {
+  return (
+    <div style={S.pecaCard}>
+      <div style={S.pecaHeader}>
+        <span style={S.pecaSigla}>{sigla}</span>
+        <span style={S.pecaTitulo}>{titulo}</span>
+      </div>
+      {children}
+    </div>
+  );
+}
 
 export default function DelphiApp() {
   const [etapa, setEtapa] = useState(0); // 0 = apresentação; 1..N = blocos; N+1 = perfil+envio; N+2 = obrigado
@@ -164,6 +263,8 @@ export default function DelphiApp() {
             </p>
             <h2 style={S.blocoTitulo}>{blocoAtual.titulo}</h2>
             {blocoAtual.instrucao && <p style={S.blocoInstrucao}>{blocoAtual.instrucao}</p>}
+
+            {blocoAtual.id === "C" && <PecasVisuais />}
 
             {blocoAtual.itens.map((item) => (
               <div key={item.id} style={S.blocoItem}>
@@ -352,4 +453,13 @@ const S: Record<string, React.CSSProperties> = {
   erro: { color: "#9B2C2C", fontSize: 14, fontWeight: 600, margin: "0 0 12px" },
   checkOk: { width: 56, height: 56, borderRadius: "50%", background: "#1F6F54", color: "#fff", fontSize: 28, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" },
   comprovante: { fontSize: 13, color: "#8A927F", marginTop: 12 },
+  pecasWrap: { marginBottom: 22 },
+  pecasIntro: { fontSize: 13.5, fontWeight: 700, color: "#14213D", margin: "0 0 12px" },
+  pecasGrid: { display: "grid", gridTemplateColumns: "1fr", gap: 14, marginBottom: 6 },
+  pecaCard: { border: "1.5px solid #E8E4D8", borderRadius: 12, padding: 14, background: "#FFFFFF" },
+  pecaHeader: { display: "flex", alignItems: "baseline", gap: 8, marginBottom: 10 },
+  pecaSigla: { fontSize: 13, fontWeight: 800, color: "#FCA311", background: "#14213D", borderRadius: 6, padding: "2px 8px" },
+  pecaTitulo: { fontSize: 13, fontWeight: 700, color: "#14213D" },
+  pecaSvg: { width: "100%", height: "auto", aspectRatio: "200 / 120", display: "block" },
+  pecaLegenda: { fontSize: 12.5, lineHeight: 1.5, color: "#4A5058", margin: "10px 0 0", fontStyle: "italic" as const },
 };
